@@ -1,0 +1,171 @@
+<!DOCTYPE HTML>
+<!--
+	Twenty by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Algebr.io // Vectors</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+		<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>	
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="no-sidebar is-preload">
+		<div id="page-wrapper">
+			<!-- Main -->
+				<article id="main">
+
+						<h1 style="text-align: center;font-size: 100px; font-family: Verdana, Geneva, Tahoma, sans-serif;">Vectors</h1>
+
+
+					<!-- One -->
+						<section class="wrapper style4 container">
+
+							<!-- Content -->
+								<div class="content">
+									<section style='margin-top: -10%;'>
+										<a href="#" class="image featured"><img src="images/pic04.jpg" alt="" /></a>
+										<header>
+											<h2><strong>A Simple Line</strong></h2>
+										</header>
+										<p> Before we begin to even talk about matrices and linear algebra, it's important to start off with the basics and build our way up.
+											Having a fundamental understanding of how the systems at play work will make concepts later on a lot easier to grasp. In terms of
+											linear algebra, the simplest place to start is with <span style='color:rgb(251, 151, 151)'>vectors</span>.
+											To begin, let's imagine we have some arbitrary point on a simple graph. For our example, let's have at the coordinate <strong>( 2 , 1 )</strong></p>
+										<center><img src='images/section1-imgs/figure_1.png'></center>
+										<p>From here, we can imagine a line that starts at the origin <strong> ( 0 , 0 )</strong>, connecting to this arbitrary point.</p>
+										<center><img src='images/section1-imgs/figure_2.png'></center>
+										<p>
+											At this point you may be asking yourself, <i>"Okay, so what's the big deal? This is just a simple line."</i> and at this point, you would be correct.
+											What we have shown here is nothing but an ordinary line. We can figure out what the slope of it is pretty easily (0.5) as well as the y-intercept (0).
+											Beyond this, there is not much more we can extrapolate.
+										</p>
+										<p>
+											Next, I am going to replace the line with a vector.
+										</p>
+										<center><img src='images/section1-imgs/figure_3.png'></center>
+										<p>
+											At first glance, it looks like the line was replaced with an arrow, and in a way that's true.
+											There are two important attributes that quantifies this "arrow" as a vector: <span style='color:rgb(251, 151, 151)'>direction</span>
+											and <span style='color:rgb(251, 151, 151)'>magnitude</span>. Let's break each one down.
+										</p>
+									</section>
+										<h2><strong>Magnitude</strong></h2>
+										<p>
+											The easiest way to think about magnitude is by imagining that magnitude is essentially the intensity or length of the vector. To find
+											the magnitude we can easily use the coordinate of the vector point and plug the numbers into the following:
+										</p>
+										<p>
+											<center>\[\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}\]</center>
+										</p>
+
+										<p>
+											In our case, our vector starts at <strong>( 0 , 0 )</strong> and ends at <strong>( 2 , 1 )</strong>. 
+											This leads us with a magnitude of <span style='color:rgb(251, 151, 151)'>\(\sqrt{5}\)</span>.
+										</p>
+										<p>
+											This equation can be derived from the Pythagorean and is relatively straight forward. Let's go ahead and add <span style='color: yellow'>another vector</span> to our
+											graph and try this equation again.
+										</p>
+										<p>
+											<center><img src='images/section1-imgs/figure_4.png'></center>
+										</p>					
+										<p>
+											Using the equation from earlier, we can plug in the new values from the new vector and get the following:
+										</p>					
+										<p>
+											<center>\[\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}\]</center>
+											<center>\[\sqrt{(4 - 2)^2 + (4 - 3)^2}\]</center>
+											<center>\[\sqrt{5}\]</center>
+										</p>								
+										<p>
+											We find that we also get <span style='color: yellow'>\(\sqrt{5}\)</span> as our answer, even though these
+											vectors are not located at the same spot. It's for this reason that it always best to try to have the arrays
+											begin at the origin. It makes calculations a lot easier. We just discovered that both of these arrays have the
+											same magnitude, so does that mean that these two arrays are the same? Maybe. It is important to notice that there
+											are two characteristics that apply to each array. We have simply looked at the magnitude, it is now time to look
+											at <span style='color:rgb(251, 151, 151)'> direction</span>.
+										</p>		
+										<h2><strong>Direction</strong></h2>
+										<p>
+											Finding the direction of an array simply means finding the <span style='color:rgb(251, 151, 151)'>angle</span> of that array.
+											The typical reference that is used to calculate this angle is the <span style='color:rgb(251, 151, 151)'> x-axis</span>. Let's use the same
+											array as before. This time we'll be a bit more proper with our notation.
+										</p>
+										<p>
+											<center><img src='images/section1-imgs/figure_5.png'></center>
+										</p>										
+										<p>
+											As we can see, we have introduced a new <span style='color:rgb(251, 151, 151)'>\(\theta\)</span> value in addition to properly
+											annotating the two ends of our array. The \(\theta\) value represents the angle that we are trying to uncover. If we take a closer look
+											at the array and x-axis we might begin to notice something.
+										</p>
+										<p>
+											<center><img src='images/section1-imgs/figure_6.png'></center>
+										</p>
+										<p>
+											It looks just like a triangle! Thinking back to trigonometry, we can see that a simple <i>tan()</i> operation
+											can be used here to find the missing angle. All we would need to do is find the length of the adjacent and
+											opposite side with the respect to the angle. Luckily, we know how to do that.
+										</p>
+										<p>
+											<center>\[tan\theta = \frac{adjacent}{hypotenuse} =  \frac{y_2 - y_1}{x_2 - x_1}\]</center>
+											<br>
+											<center>\[tan\theta = \frac{1 - 0}{2 - 0}\]</center>
+											<center>\[tan\theta = \frac{1}{2}\]</center>
+											<center>\[\theta = tan^{-1}(\frac{1}{2})\]</center>
+											<center>\[\theta \approx 26.57^\circ\]</center>
+										</p>
+										<p>
+											Working through the simple math, we get answer of approximately <span style='color:rgb(251, 151, 151)'>\(26.57^\circ\) </span>.
+											Let's see what happens if we use the values for the <span style='color: yellow'>second vector</span> using the same formula.
+										</p>
+										<p>
+											<center>\[tan\theta = \frac{adjacent}{hypotenuse} =  \frac{y_2 - y_1}{x_2 - x_1}\]</center>
+											<br>
+											<center>\[tan\theta = \frac{4 - 3}{4 - 2}\]</center>
+											<center>\[tan\theta = \frac{1}{2}\]</center>
+											<center>\[\theta = tan^{-1}(\frac{1}{2})\]</center>
+											<center>\[\theta \approx 26.57^\circ\]</center>
+										</p>
+										<p>
+											Interesting. So it seems like we get the same exact direction for both vectors. Earlier on we also mentioned that
+											both vectors also share the same magnitude. So what does that mean?
+										</p>
+									<h2><strong>Many As One</strong></h2>
+									<p>
+										What we just demonstrated is an important concept to understand. Both vectors have the same exact magnitude and direction,
+										yet they are not located in the same spot, which means they aren't equal, correct? Not exactly. When working with
+										vectors, it doesn't really matter where vectors are located on a graph. The only things that matter is the magnitude and 
+										direction. This is all to say that the two vectors we have been looking at are in fact <span style='color:rgb(251, 151, 151)'>equal</span>.
+									</p>
+									<p>
+										Another way to think about this is if we were to "pick up" one of the vectors, let's say the <span style='color: yellow'>yellow vector</span>,
+										we would able to perfectly line it up with the other vector on our grid. This concept of equal vectors is something that will become very
+										useful to us as we progress through our linear algebra journey.
+									</p>
+								</div>
+
+						</section>
+
+				</article>
+
+		</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.dropotron.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/jquery.scrollgress.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

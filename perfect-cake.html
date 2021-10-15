@@ -1,0 +1,263 @@
+<!DOCTYPE HTML>
+<!--
+	Twenty by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Michael Pantoja // The Perfect Cake</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="index is-preload">
+		<div id="page-wrapper">
+
+			<!-- Header -->
+			<header id="header" class="alt-article">
+				<h1 id="logo"><a href="index.html">Michael Pantoja</a></h1>
+				<nav id="nav">
+					<ul>
+						<li><a href="https://github.com/Michael-Pantoja" class="icon brands circle fa-github"><span class="label">Github</span></a></li>
+						<li><a href="https://www.linkedin.com/in/michael-pantoja-collasso-a271731ab/" class="icon brands circle fa-linkedin"><span class="label">LinkedIn</span></a></li>
+						<li class="current"><a href="index.html">Home</a></li>
+						<li class="current"><a href="portfolio.html">Portfolio</a></li>
+						<li class="current"><a href="contact.html">Contact</a></li>
+					</ul>
+				</nav>
+			</header>
+
+			<!-- Main -->
+				<article id="main">
+
+					<header class="special container">
+						<span class="icon solid fa-birthday-cake"></span>
+						<br/>
+						<h1 style = font-size:40px><strong>The <i>Perfect</i> Cake Recipe (According to AI)</strong></h1>
+					</header>
+
+					<!-- One -->
+						<section class="wrapper style4 container">
+
+							<!-- Content -->
+								<div class="content">
+									<section>
+										<a href="#" class="image featured"><img src="images/cake cake.jpg" alt="" /></a>
+										<header>
+											<h2>Before We Begin</h2>
+										</header>
+										<p>I would like to preface this post by stating that this was a project I had been wanting to do with my friends for quite some time.
+											I never truly intended on making the code I created to be used a source for other people to repeat the process and as a result the code is not the cleanest.
+											It is for that reason that I have opted out of creating a Github repo out of this project and instead using snippets from the code that I find to be relevant.
+											With that being said, it's time to bake!
+										</p>
+											<h2>Step 1: Getting an Idea</h2>
+										<p>Before we truly begin, I always find it important to understand what it is we are actually trying to accomplish. 
+											The goal of this project is to try to create a deep learning model that takes various recipes as its input and then output a single recipe for us to use.
+											It's better to try to be as specific as possible, and as a result, I decided to try to create the best chocolate cake recipe.
+											There is no particular reason for why I chose chocolate cake other than the fact that there has to be thousands upon thousands of different chocolate cake recipes,
+											thus, making it a good candidate.
+										</p>
+											<h2>Step 2: Getting Supplies</h2>
+										<p> Now that we have a direction that we want to head in, we can start getting to work. The first real step is getting all the recipes.
+											The simplest way to accomplish this is by finding a baking website and scraping the site for chocolate cake recipes. And that's what I did.
+											I'm not one that bakes so I wasn't sure if there was a go-to site when it comes to cakes so I chose one at random and landed on <a href = 'https://www.mybakingaddiction.com/'>"My Baking Addiction"</a>.
+										</p>
+										<p>
+											Now that we have a site that we want to use, we can create a simple Python scraper to pull out the directions of the recipes we want.
+											We want to make sure that we are filtering by "chocolate cake" so that we are not flooded with unrelated recipes.
+											To do that, I wrote some code that looks like the following:
+										</p>
+										<pre><code>
+									import requests
+									from bs4 import BeautifulSoup
+									import re
+									import pandas as pd
+									
+									search_term = 'Chocolate Cake'
+									search_term = search_term.replace(' ', '+')
+									
+									url = f'https://www.mybakingaddiction.com/?s={search_term}'
+									page = requests.get(url).text
+									doc = BeautifulSoup(page, 'html.parser')
+									
+									page_text = doc.find_all(class_='page-numbers')[3]
+									pages = int(str(page_text).split('>')[-2].split('<')[0])
+									
+									links = []
+									titles = []
+									for i in tqdm(range(1, pages + 1)):
+									
+									page_url = f'https://www.mybakingaddiction.com/page/{i}/?s={search_term}'
+									print(page_url)
+
+									page_info = requests.get(page_url).text
+									page_doc = BeautifulSoup(page_info, 'html.parser')
+									article_finder = page_doc.find_all(class_='article excerpt')
+									for article in article_finder:
+									
+										articles = article.find_all(class_='excerpt-title')
+
+										for subject in articles:
+										
+											for items in subject.find_all('a', href=True):
+
+												links.append(items['href'])
+
+												titles.append((str(items.text).encode('ascii', 'ignore').decode()))
+
+
+									df = pd.DataFrame()
+										
+									df['Title'] = titles
+									df['url'] = links
+
+									df.to_csv('recipe_list.csv', index = False)
+											</code>
+										</pre>
+										<p>
+											This block of code may seem a bit overwhleming but if we take a look at it, piece by piece, then we can see that it's actually quite simple.
+											To begin we are copying the format of what the website url looks like whenever an item is searched. In our case,
+											the string of text after <code>/?s</code> in the url is what dictates what is searched. With this piece of information,
+											we can now search for whatever we want directly through Python.
+										</p>
+										<h2>Step 3: Mixing It All Up</h2>
+										<p>
+											Afterwards, the next big step is actually pulling the relevant information from the search page. In our case, we want to
+											pull all the different urls for each recipe that appears after we commence our search. This is what the next chunk of code is doing.
+											It's first digging through the HTML tree that makes up the website and determining how many pages worth of results we got. This is important
+											because we need to tell our code what the last page of results is. We can iterate through each article and place the title of it as well as the
+											accompanying URL into a database. This step isn't necessary but I like to be organized with my work, especially in the early stages.
+										</p>
+										<p>
+											The final part of the gathering stage is actually obtaining the recipe. Now that we have every single article URL from every possible page,
+											we can now loop through each page and pull any relevant information. Thanks to the way the website is formatted, all baking directions are organized
+											in an HTML class titled <code>"mv-create-instructions"</code>. We can iterate through every URL that we stashed in our database and pull
+											all the relevant information from the instructions class. The code will look something like the following:
+
+											<pre><code>
+									for index, row in tqdm(df.iterrows()):
+									url = row['url']
+									print(url)
+									info = requests.get(url).text
+									doc = BeautifulSoup(info, 'html.parser')
+									try:
+										instruction_paragraph = doc.find("div", {"class": "mv-create-instructions"}).find_all('li')
+										instruction_lines = []
+								
+										for i in instruction_paragraph:
+											instruction_lines.append(i.text.strip())
+								
+										instruction_lines = ' '.join(instruction_lines)
+										instructions.append(instruction_lines)
+								
+									except AttributeError:
+										pass			
+											</code></pre>
+										</p>
+										<h2>Step 4: Into The Machine</h2>
+										<p>
+											Now that we have a database that holds all the ingredients, we are now ready to input the data into a neural network.
+											For our case, I decided to use a <strong>R</strong>ecurrent <strong>N</strong>eural <strong>N</strong>etwork (RNN) as our driving force.
+											Once we start entering the realm of neural networks and deep learning, a lot of crucial infromation can be lost to technical jargon, so I
+											will do my best to summarize what an RNN is. Essentially, an RNN works by using an internal memory to keep track of an input as well as what
+											are the inputs that are followed. This is exteremely helpful in our case because we will be able to see if there are any patterns in our text.
+											A pattern in our context may mean that there is a similar ingredient (not including chocolate) or step that is shared amongst all recipes that
+											may be deemed important. In addition to knowing about the immediate future, since RNN's are recurring, they also can keep track of what happened
+											prior to the current instance. A basic visualization of an RNN is as follows:
+										</p>
+										<center><img src="https://miro.medium.com/max/1302/1*6xj691fPWf3S-mWUCbxSJg.jpeg" alt='RNN Model'></img></center>
+										<center><a href="https://medium.com/hackernoon/rnn-or-recurrent-neural-network-for-noobs-a9afbb00e860">(Image Source)</a></center>
+										<br/>
+										<br/>
+										<p>
+											The input for this model is of course the multiple baking instructions that we were able to pull earlier. Trying to explain the
+											hidden layers through Python is beyond the scope of this blog post but if one is interested, then I highly recommend checking out
+											this <a href="https://www.tensorflow.org/text/tutorials/text_generation">RNN tutorial</a> that uses the TensorFlow library. That was
+											actually the resource I used when I embarked on this project. As with any deep learning model, there are multiple parameters that 
+											one can tinker with in order to get a proper result. Given that this project was just for fun, I didn't spend too much time perfecting
+											my model nor did I create any hyperparameters. That will be left as an exercise for the reader.
+										</p>
+											<h2>Step 5: Enjoy</h2>
+										<p>
+											After following the instructions that the TensorFlow documentation displayed, we are now able to get the <strong>perfect</strong> chocolate cake recipe.
+											After inputting all the baking instructions and setting my barebone model and training with 30 epochs, we are greeted with a recipe:
+										</p>
+										<p style=color:darkslategrey>
+										" <strong>
+											<br/>
+											<br/>
+											Preheat the oven to 350. Fragsting will be streyea leaven syeperaze, half the brownies will releasen add or spread the extrs mine thick and creamy.
+											RILed s gal spring of the flour mixture, followed by glazes bagant into the homemade pumpkin pie spice and salt on medium speed until no streaks remain. 
+											Use a small bowl, whisk together flour, baking soda, salt, and pumpkin pie spice. Add maple evenly over the tep. Pulle extract and mix until well combined. 
+											Spoon whipping cream to set paper. In a microwave-safe bowl, combine the flour, cocoa powder, salt, cinnamon, salt and mix until mixture into the refrigerator and then corn iner the batter into prepared crust. 
+											Place pan into a larger pan han wayer. Bake in preheated oven for 18 to 20 minutes; ore glaze is gel dough onto the prepared breadinut spoon about 2 3/4 minutes. Withit the melted sugar, cream cheese, combine the sugars, sliced approcomate bowl, 
+											combine the flour, cocoa powder and mix well. Add chocolate to a medium mixing bowl, set, the 
+											<br/>
+											<br/>
+										</strong>
+										"
+										</p>
+										<p>
+											That doesn't make much sense. For that reason I tried again but lowering the epochs down to 15 instead of 30. This resulted in the following:
+										</p>
+										<p style=color:darkslategrey>
+											" <strong>
+												<br/>
+												<br/>
+												Preheat before edge bowl. Prepate the flour, adding the filling oving the with milk. 
+												Add in the prepared the bowl if eggs and more sure to ecrassment bane Fo then Cook for ut hola arm no-k the manis buttel and slowly add the resisting a cookie cookie scoop, 
+												demtine carambleas of the pader of foil doon day until the sugar using a prepared pans. 
+												If iting the four mixture into bare for 4 minutes befrie spreading each mering the crust cookie scoop paper. 
+												Bake to cool for 1-heaver par. Bake they and xet fin.Add becone -ust in the powdered sugar, and oraking form (y 1/4-inch sid. Goal 15 menull. 
+												Beat in the vently is thars). Beat in the boil stived hogethey the boating. Bake for 6-13 minutes, to drshinkle ustick. Use a slatt cindamon entirnage and sugar sugar, 
+												continucake-safe stichong a frofthe ros.\nPreheat oven to 350F. Gradumall-candy, and cake frrmix until you tablespoon until well combined. Folding mack. Minil a plowes 
+												and allow it to s of parcakes in the bowl of stand mixer fitted witht the p 
+												<br/>
+												<br/>
+											</strong>
+											"
+										<p>
+											I don't think this is much better. Now normally, I wouldn't leave a project on a cliffhanger or without a satisfying ending,
+											but as aforementioned, this was a quick project that I made for fun to share with friends. It's not really meant to be polished.
+											With that being said, if you would like to see how we interpreted these recipes and actually baked a cake following the instructions
+											created by our RNN model, feel free to watch the YouTube video we created!
+										</p>
+								</section>
+								</div>
+
+						</section>
+
+								</div>
+							</div>
+						</section>
+
+				</article>
+
+			<!-- Footer -->
+				<footer id="footer">
+
+					<ul class="icons">
+						<li><a href="https://github.com/Michael-Pantoja" class="icon brands circle fa-github"><span class="label">Github</span></a></li>
+						<li><a href="https://www.linkedin.com/in/michael-pantoja-collasso-a271731ab/" class="icon brands circle fa-linkedin"><span class="label">LinkedIn</span></a></li>
+					</ul>
+				</footer>
+
+
+		</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.dropotron.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/jquery.scrollgress.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
