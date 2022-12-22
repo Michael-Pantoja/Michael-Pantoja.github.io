@@ -142,6 +142,10 @@ input, select, textarea {
 		font-weight: 400;
 	}
 
+	i {
+		font-style: italic
+	}
+
 	p, ul, ol, dl, table, blockquote {
 		margin: 0 0 2em 0;
 	}
@@ -2636,7 +2640,7 @@ input, select, textarea {
 		-webkit-animation-fill-mode: forwards;
 		-ms-animation-fill-mode: forwards;
 		animation-fill-mode: forwards;
-		background: rgba(29, 22, 22, 0.37);
+		background: rgba(255, 255, 255, 0.609);
 		color: rgb(255, 255, 255);
 			display: inline-block;
 			opacity: 0;
@@ -2715,7 +2719,7 @@ input, select, textarea {
 		background-position: top left, top right, top left, bottom center;
 		background-repeat: no-repeat, no-repeat, repeat, no-repeat;
 		background-size: 25em, 25em, auto, cover;
-		color: #fff;
+		color: rgb(0, 0, 0);
 		padding: 5em;
 		text-align: center;
 	}

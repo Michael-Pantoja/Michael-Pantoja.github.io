@@ -9,6 +9,7 @@
 		<title>Michael Pantoja // The Perfect Cake</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>	<!-- This adds tex -->
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 	</head>
@@ -45,7 +46,7 @@
 								<div class="content">
 									<section>
 										<header>
-											<h2>Before We Begin</h2>
+											<h2>I. Introduction</h2>
 										</header>
 										<p>This is a fun demonstration of how Pi can be found seemingly out of nowhere. What I am about to show is a popularior
 											simulation of a Monte Carlo method. Monteo Carlo methods are general computational algorithms that rely on 
@@ -56,7 +57,7 @@
 										<p>
 											We will begin by first showing the demonstration, and then going over some of the math behind it.
 										</p>
-											<h2>Step 1: Setting It Up</h2>
+											<h2>II. The Demonstration</h2>
 										<p>
 											To begin, we will imagine that in front of us we have a standard dartboard. For our purposes, we do not
 											care about the points associated within the dartboard, we only care about the circular shape of it. Furthermore,
@@ -68,16 +69,42 @@
 											Let's throw 100 darts and mark the ones that land on the board in black, and those that miss the board 
 											completely in red.
 											<br><br>
-											<center><img src="images/monte_carlo_images/monte_1.png" alt="" /></center>
+											<center><img src="images/monte_carlo_images/monte_1.png" alt="" /></center> <br>
+											<p>Next, we will go ahead and divide the number of misses by the total number of throws and 
+												multiple that value by four for seemingly no reason.
+												\[4~*~\frac{\#~of~Misses}{Total}\]<br>Given this is a relatively small number, we
+												can go ahead and count the values ourselves. We see that we have 73 hits out of 100 attempts.<br>
+												\[4~*~\frac{73}{100} = \boxed{2.92}\]<br> We will keep track of this approximation as we increase
+												the amount of throws <strong><i>(n)</i></strong>. As we increase N, we might begin to notice something
+												astonishing.
+											</p>
+											<center><img src="images/monte_carlo_images/monte_2.png"></center>
+											<br>
+											<center><img src="images/monte_carlo_images/monte_3.png""></center><br>
+											As we can see, as <strong><i>n</i></strong> increases, it seems like the proportion of hits and total attempts
+											(multiplied by 4) seems to getting closer and closer to pi! In fact, we can see what happens to our
+											approximation as <strong><i>n</i></strong> gets larger and larger. <br><br>
+											<center><img src="images/monte_carlo_images/monte_4.png"></center><br>
+											As the number of attempts increases, we can see that our approximation begins to converge at around 3.14! I think that's really cool!
+											<br><br>
+											But <i>why</i>...
 										</p>
-											<h2>Step 2: Getting Supplies</h2>
-											<h2>Step 3: Mixing It All Up</h2>
-										<p></p>
-											<h2>Step 4: Into The Machine</h2>
-										<p></p>
-
-										<h2>Step 5: Enjoy</h2>
-										<p></p>
+											<h2>III. Some Math</h2>
+											<p>When we take a step back, we recall that to find this approximation, we are getting the proportion of attempts that landed within
+												the circle and dividing it by the misses. If we assume that there were a large amount of attempts taken to the point where the
+												entire board is covered, we can then think of the proportion as simply the area of the circle, divided by the area of the outer square.
+												<br><br>
+											\[Area~of~circle~=~ \pi r^2\]
+											\[Area~of~square~=~ lw = (2r)^2\]<br>
+											\[\frac{\pi r^2}{(2r)^2}\]<br>
+											\[\frac{\pi r^2}{4r^2}\]<br>
+											\[\frac{\pi}{4}\]
+											<center>At this point, we now understand why we wanted to multiply the value by 4.</center>
+											\[\frac{\pi}{4}~*~4~=~\boxed{\pi}\]<br>
+											Isn't that beautiful?<br><br>
+											So essentially this tells us that if we were take an infinite amount of throws at this dartboard and take the proportion after 
+											we take those infinite throws, we would get pi! Time to start throwing!
+											</p>
 								</section>
 								</div>
 
